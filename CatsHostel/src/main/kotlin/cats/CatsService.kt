@@ -12,7 +12,7 @@ interface CatsService {
 
     suspend fun delete(id: Int): Boolean
 
-    suspend fun update(cat: Cat): Boolean
+    suspend fun update(id: Int, name: String, age: Int?): Boolean
 }
 
 class CatsServiceDB : CatsService {
@@ -55,11 +55,13 @@ class CatsServiceDB : CatsService {
         }
     }
 
-    override suspend fun update(cat: Cat): Boolean {
+    override suspend fun update(id: Int, name: String, age: Int?): Boolean {
         return transaction {
-            Cats.update({ Cats.id eq cat.id }) {
-                it[name] = cat.name
-                it[age] = cat.age
+            Cats.update({ Cats.id eq id }) {cat ->
+                cat[Cats.name] = name
+                if (age != null) {
+                    cat[Cats.age] = age
+                }
             } > 0
         }
     }

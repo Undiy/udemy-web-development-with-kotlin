@@ -43,9 +43,9 @@ fun Route.catRouter(catsService: CatsService) {
                 val id = requireNotNull(parameters["id"]).toInt()
                 val parameters = receiveParameters()
                 val name = requireNotNull(parameters["name"])
-                val age = parameters["age"]?.toInt() ?: 0
+                val age = parameters["age"]?.toInt()
 
-                if (catsService.update(Cat(id, name, age))) {
+                if (catsService.update(id, name, age)) {
                     respond(HttpStatusCode.NoContent)
                 } else {
                     respond(HttpStatusCode.NotFound)
