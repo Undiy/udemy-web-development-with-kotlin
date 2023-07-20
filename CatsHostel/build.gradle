@@ -6,6 +6,7 @@ group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -19,8 +20,10 @@ dependencies {
     testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
-    implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation 'org.slf4j:slf4j-simple:1.7.12'
+    implementation 'ch.qos.logback:logback-classic:1.2.9'
+    implementation 'org.jetbrains.exposed:exposed:0.15.1'
+    implementation 'org.jetbrains.exposed:exposed-core:0.41.1'
+    implementation 'org.postgresql:postgresql:42.2.27'
 }
 
 test {
