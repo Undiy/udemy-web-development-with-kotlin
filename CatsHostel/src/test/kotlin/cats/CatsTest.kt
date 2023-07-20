@@ -43,7 +43,38 @@ class CatsTest {
             val id = createCall.response.content
 
             val afterCreate = handleRequest(HttpMethod.Get, "/cats/$id")
-            assertEquals("""{"id":1,"name":"Apollo","age":12}""".asJson(), afterCreate.response.content?.asJson())
+            assertEquals("""{"id":$id,"name":"Apollo","age":12}""".asJson(), afterCreate.response.content?.asJson())
+        }
+    }
+
+    @Test
+    fun `Delete cat`() {
+        withTestApplication(Application::mainModule) {
+            val createCall = createCat("Fibi", 4)
+            val id = createCall.response.content
+
+            val afterCreate = handleRequest(HttpMethod.Delete, "/cats/$id")
+            assertEquals(HttpStatusCode.NoContent, afterCreate.response.status())
+
+            val afterDelete = handleRequest(HttpMethod.Delete, "/cats/$id")
+            assertEquals(HttpStatusCode.NotFound, afterDelete.response.status())
+        }
+    }
+
+    @Test
+    fun `Update cat`() {
+        withTestApplication(Application::mainModule) {
+            val createCall = createCat("Fluffy", 3)
+            val id = createCall.response.content
+
+            val updateCall = handleRequest(HttpMethod.Put, "/cats/$id") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.FormUrlEncoded.toString())
+                setBody(listOf("name" to "Fluffy", "age" to "4").formUrlEncode())
+            }
+            assertEquals(HttpStatusCode.NoContent, updateCall.response.status())
+
+            val afterUpdate = handleRequest(HttpMethod.Get, "/cats/$id")
+            assertEquals("""{"id":$id,"name":"Fluffy","age":4}""".asJson(), afterUpdate.response.content?.asJson())
         }
     }
 

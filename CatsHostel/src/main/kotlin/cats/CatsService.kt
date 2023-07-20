@@ -9,6 +9,10 @@ interface CatsService {
     suspend fun all(): List<Cat>
 
     suspend fun findById(id: Int): Cat?
+
+    suspend fun delete(id: Int): Boolean
+
+    suspend fun update(cat: Cat): Boolean
 }
 
 class CatsServiceDB : CatsService {
@@ -40,6 +44,24 @@ class CatsServiceDB : CatsService {
             }.firstOrNull()
         }
         return row?.asCat()
+    }
+
+    override suspend fun delete(id: Int): Boolean {
+        return transaction {
+            addLogger(StdOutSqlLogger)
+            Cats.deleteWhere {
+                Cats.id eq id
+            }> 0
+        }
+    }
+
+    override suspend fun update(cat: Cat): Boolean {
+        return transaction {
+            Cats.update({ Cats.id eq cat.id }) {
+                it[name] = cat.name
+                it[age] = cat.age
+            } > 0
+        }
     }
 }
 
