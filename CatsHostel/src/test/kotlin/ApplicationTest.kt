@@ -29,4 +29,4 @@ class ApplicationTest {
     }
 }
 
-private fun String.asJson() = ObjectMapper().readTree(this)
+fun String.asJson() = ObjectMapper().readTree(this)
