@@ -13,6 +13,18 @@ repositories {
 
 mainClassName = 'MainKt'
 
+jar {
+    manifest {
+        attributes "Main-Class": mainClassName
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            f -> f.isDirectory() ? f : zipTree(f)
+        }
+    }
+    archiveName "cats-app.jar"
+}
+
 ext.ktor_version = '1.1.4'
 ext.junit_version = '5.6.0'
 

@@ -1,7 +1,11 @@
-FROM openjdk:17
+FROM openjdk:17 as builder
 
 COPY . .
 
-RUN ./gradlew build -x test
+RUN ./gradlew jar
 
-CMD ["./gradlew", "run"]
+FROM openjdk:17
+
+COPY --from=builder /build/libs/cats-app.jar ./cats-app.jar
+
+CMD ["java", "-jar", "cats-app.jar"]
