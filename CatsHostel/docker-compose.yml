@@ -8,6 +8,8 @@ services:
       - POSTGRES_USER=cats_user
       - POSTGRES_PASSWORD=catpass123
       - POSTGRES_DB=cats_db
+    volumes:
+      - cats_data:/var/lib/postgresql/data
   web:
     build: .
     ports:
@@ -20,3 +22,5 @@ services:
       - DB_USER=cats_user
       - DB_PASSWORD=catpass123
       - DB_NAME=cats_db
+volumes:
+  cats_data:

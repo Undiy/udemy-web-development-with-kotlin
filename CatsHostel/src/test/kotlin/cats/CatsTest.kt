@@ -1,16 +1,15 @@
 package cats
 
 import asJson
-import com.sun.nio.sctp.HandlerResult
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
-import kotlin.test.assertEquals
 import io.ktor.application.Application
 import mainModule
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.Assertions.assertEquals
 
 
 class CatsTest {

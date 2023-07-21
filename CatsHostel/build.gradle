@@ -22,11 +22,13 @@ jar {
             f -> f.isDirectory() ? f : zipTree(f)
         }
     }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     archiveName "cats-app.jar"
 }
 
-ext.ktor_version = '1.1.4'
+ext.ktor_version = '1.6.8'
 ext.junit_version = '5.6.0'
+ext.kgraphql_version = '0.17.5'
 
 dependencies {
     implementation "io.ktor:ktor-server-core:$ktor_version"
@@ -37,8 +39,10 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     implementation 'ch.qos.logback:logback-classic:1.2.9'
     implementation 'org.jetbrains.exposed:exposed:0.15.1'
-    implementation 'org.jetbrains.exposed:exposed-core:0.41.1'
     implementation 'org.postgresql:postgresql:42.2.27'
+    implementation "com.apurebase:kgraphql:$kgraphql_version"
+    implementation "com.apurebase:kgraphql-ktor:$kgraphql_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:1.8.20"
 }
 
 test {

@@ -10,6 +10,8 @@ interface CatsService {
 
     suspend fun findById(id: Int): Cat?
 
+    suspend fun findByName(name: String): Cat?
+
     suspend fun delete(id: Int): Boolean
 
     suspend fun update(id: Int, name: String, age: Int?): Boolean
@@ -41,6 +43,16 @@ class CatsServiceDB : CatsService {
             addLogger(StdOutSqlLogger)
             Cats.select {
                 Cats.id eq id
+            }.firstOrNull()
+        }
+        return row?.asCat()
+    }
+
+    override suspend fun findByName(name: String): Cat? {
+        val row = transaction {
+            addLogger(StdOutSqlLogger)
+            Cats.select {
+                Cats.name eq name
             }.firstOrNull()
         }
         return row?.asCat()
